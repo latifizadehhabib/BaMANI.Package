@@ -1,0 +1,52 @@
+Package: BaMANI.Package
+Type: Package
+Title: BaMANI: Bayesian Multi-Algorithm causal Network Inference
+Version: 0.1.0
+Author: Habibolla Latifizadeh, David Klinke
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: A Shiny app for Bayesian Network Analysis and Causal Inference.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Depends:
+    R (>= 3.5.0)
+Imports:
+    shiny,
+    shinydashboard,
+    shinyjs,
+    shinyWidgets,
+    htmltools,
+    DT,
+    visNetwork,
+    plotly,
+    shinyalert,
+    purrr,
+    parallel,
+    colorspace,
+    stats,
+    bnlearn,
+    lattice,
+    Rgraphviz,
+    MASS,
+    ggpubr,
+    snow,
+    grid,
+    tidyverse,
+    ggplot2,
+    reshape2,
+    metR,
+    fields,
+    scatterplot3d,
+    matrixStats,
+    rgl,
+    readr,
+    igraph,
+    dplyr,
+    cowplot,
+    knitr,
+    scales,
+    RColorBrewer,
+    reticulate,
+    gplots
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
