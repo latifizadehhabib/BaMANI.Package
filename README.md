@@ -85,6 +85,8 @@ Ensure all package dependencies are installed. Use the following R command to in
 
       ```r
       required_packages <- c("shiny", "shinydashboard", "shinyjs", "shinyWidgets", "DT", "purrr", "parallel", "bnlearn", "visNetwork", "plotly", "shinyalert", "htmltools")
+      
+      ```r
       install.packages(setdiff(required_packages, installed.packages()[,"Package"]))
 
 
