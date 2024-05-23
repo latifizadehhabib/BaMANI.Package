@@ -29,11 +29,11 @@ To run the Shiny app provided by the package:
 
 1. **Load the Package:**
    ```r
-library(BaMANI.Package)
+   library(BaMANI.Package)
 
 2. **Run the Shiny App: **
    ```r
-BaMANI.Package::run_app()
+   BaMANI.Package::run_app()
 
 
 ## Development
