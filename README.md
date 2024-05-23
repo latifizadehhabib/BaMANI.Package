@@ -51,7 +51,7 @@ To set up the development environment and build the package from source, follow 
 Set the working directory to the package directory:
 
     ```r
-     setwd("path/to/BaMANI.Package")
+   setwd("path/to/BaMANI.Package")
 
 3. **Load 'devtools' and Generate Documentation:** 
 
