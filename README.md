@@ -1,6 +1,6 @@
 # BaMANI.Package
 
-`BaMANI.Package` is an R package that provides tools and functionalities for Bayesian Network Analysis, including a Shiny application for interactive data analysis.
+BaMANI: Bayesian Multi-Algorithm Causal Network Inference Introduction BaMANI (Bayesian Multi-Algorithm Causal Network Inference) is an advanced software tool designed for Bayesian network inference. It leverages a variety of algorithms and incorporates user-defined constraints to improve the accuracy of inferring structure and causality within networks from observational data. `BaMANI.Package` is an R package that provides tools and functionalities for Bayesian Network Analysis, including a Shiny application for interactive data analysis.
 
 ## Installation
 
