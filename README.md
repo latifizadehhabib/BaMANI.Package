@@ -89,7 +89,4 @@ setwd("path/to/BaMANI.Package")
 ## Contributing
 
 We welcome contributions to improve BaMANI.Package. If you have any suggestions or find any issues, please open an issue or submit a pull request.
-License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
