@@ -22,27 +22,18 @@ Ensure you have the following prerequisites installed:
    install.packages("path/to/BaMANI.Package_0.1.0.tar.gz", repos = NULL, type = "source")
 
 
-
-
-
 ## Usage
 
 To run the Shiny app provided by the package:
 
 
 1. **Load the Package:**
-
    ```r
-
 library(BaMANI.Package)
 
 2. **Run the Shiny App: **
-
    ```r
-
 BaMANI.Package::run_app()
-
-
 
 
 ## Development
@@ -62,7 +53,6 @@ Set the working directory to the package directory:
 
 ```r
 setwd("path/to/BaMANI.Package")
-
 
 
 3. **Load 'devtools' and Generate Documentation:** 
