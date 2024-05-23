@@ -84,8 +84,8 @@ Ensure Rtools is installed and properly configured. You can download it from CRA
 Ensure all package dependencies are installed. Use the following R command to install any missing packages:
 
       ```r
-       required_packages <- c("shiny", "shinydashboard", "shinyjs", "shinyWidgets", "DT", "purrr", "parallel", "bnlearn", "visNetwork", "plotly", "shinyalert", "htmltools")
-       install.packages(setdiff(required_packages, installed.packages()[,"Package"]))
+      required_packages <- c("shiny", "shinydashboard", "shinyjs", "shinyWidgets", "DT", "purrr", "parallel", "bnlearn", "visNetwork", "plotly", "shinyalert", "htmltools")
+      install.packages(setdiff(required_packages, installed.packages()[,"Package"]))
 
 
 ## Contributing
