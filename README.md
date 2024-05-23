@@ -85,7 +85,3 @@ Set the working directory to the package directory:
    install.packages(setdiff(required_packages, installed.packages()[,"Package"]))
 
 
-%## Contributing
-
-%We welcome contributions to improve BaMANI.Package. If you have any suggestions or find any issues, please open an issue or submit a pull request.
-
