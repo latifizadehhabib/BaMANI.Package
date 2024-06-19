@@ -78,6 +78,14 @@ Set the working directory to the package directory:
 ## Troubleshooting
 
 - Ensure Rtools is installed and properly configured. You can download it from CRAN Rtools.
+- Installation of Rgraphviz package:
+- ```r
+  install.packages("BiocManager")
+  BiocManager::install("Rgraphviz")
+ - Load Rgraphviz package:
+ -  ```r
+    library(Rgraphviz)
+
 - Ensure all package dependencies are installed. Use the following R command to install any missing packages:
 
   ```r
