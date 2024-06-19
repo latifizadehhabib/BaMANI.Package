@@ -1,17 +1,16 @@
 exportPattern("^[[:alpha:]]+")
 
 export(run_app)
-
-
 export(ui)
 export(server)
+
+
 import(purrr)
 import(parallel)
 import(DT)
 import(shinydashboard)
 import(shiny)
 import(shinyjs)
-
 import(colorspace)
 import(stats)
 import(bnlearn)
@@ -40,8 +39,6 @@ import(scales)
 import(RColorBrewer)
 import(reticulate)
 import(gplots)
-
-
 import(corrplot)
 import(metan)
 import(ggcorrplot)
