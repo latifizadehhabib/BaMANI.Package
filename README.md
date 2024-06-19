@@ -82,9 +82,8 @@ Set the working directory to the package directory:
   ```r
   install.packages("BiocManager")
   BiocManager::install("Rgraphviz")
- - Load Rgraphviz package:
-   ```r
-    library(Rgraphviz)
+  # Load Rgraphviz package:
+  library(Rgraphviz)  
 
 - Ensure all package dependencies are installed. Use the following R command to install any missing packages:
 
