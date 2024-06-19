@@ -6,15 +6,6 @@ rm(list = ls())
 #
 # BiocManager::install("Rgraphviz")
 
-# ---------------------------------
-# install.packages("profvis")
-# library(profvis)
-# profvis({
-#   runApp('G:/My Drive/Cancer Center PC/Shiny app_Network-code - (BackUp. 01.21.2024)/Code 28 (Best)/app_distributiona_22.R')
-# })
-# ---------------------------------
-
-
 library(bnlearn)
 library(shiny)
 library(shinydashboard)
@@ -119,7 +110,6 @@ source_files <- c("run_single_algorithm_directed.R",
                   "augmented_edge_table.R",
                   "uninformative_arcs_removal.R",
                   "finding_threshold_values.R",
-
                   "temp.white_thresh.cols.R",
                   "calculate_loss_npar_table.R",
                   "calculate_bic.R",
