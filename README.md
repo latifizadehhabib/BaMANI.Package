@@ -49,8 +49,8 @@ To set up the development environment and build the package from source, follow 
 2. **Open R or RStudio:** 
 
 Set the working directory to the package directory:
-      ```r
-    setwd("path/to/BaMANI.Package")
+    ```r
+      setwd("path/to/BaMANI.Package")
 
 3. **Load 'devtools' and Generate Documentation:** 
 
