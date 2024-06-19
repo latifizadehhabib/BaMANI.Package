@@ -3,7 +3,7 @@ calculate_loss_npar <- function(threshold, temp_list_merge, discretized_data, nb
   
   print("Starting 'calculate_loss_npar' inputs:")
   
-  source("calculate_loss_npar_table.R")
+  #source("calculate_loss_npar_table.R")
   calculate_loss_npar_table <- calculate_loss_npar_table (threshold, 
                                                           temp_list_merge, 
                                                           discretized_data, 

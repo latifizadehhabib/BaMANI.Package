@@ -1,9 +1,3 @@
-#' UI function for My Shiny App
-#'
-#' @importFrom shiny fluidPage
-#' @importFrom shinydashboard dashboardPage dashboardHeader dashboardSidebar dashboardBody sidebarMenu menuItem menuSubItem tabItems tabItem tabsetPanel tabPanel
-
-
 # File: R/ui.R
 
 #' UI function for My Shiny App

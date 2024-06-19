@@ -166,7 +166,7 @@ Final.DAG_network_plot <- function(augmented_edge_list,
 
   # --------------------------
   # -----------------------------------
-  source("calculate_cor_sign.R")
+  #source("calculate_cor_sign.R")
   CorSign <- calculate_cor_sign(arcs.BRCA, corrcoef)
   
   HLarcs <- arcs.BRCA[CorSign == "-",]

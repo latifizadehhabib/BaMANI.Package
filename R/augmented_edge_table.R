@@ -84,7 +84,7 @@ if (!is.null(Black_List) && nrow(Black_List) > 0) {
 # -------------------------------------Not_this_direction (A-->B not been learned by any algorithm, zero or empty value for this row )
 # "Unclear_direction": When Row A->B and Row B->A have some arc strength columns with non-zero (even for zero) value at same time (which means some algorithm learnt A->B and others B->A, so it's not safe to choose one of them by chance (unclear))
 
-source("find_unclear_direction.R")  # if add two columns "Not_this_direction" and "unclear_direction"
+#source("find_unclear_direction.R")  # if add two columns "Not_this_direction" and "unclear_direction"
 # debug(find_unclear_direction)
 augmented_edge_list <- find_unclear_direction (augmented_edge_list)
 
