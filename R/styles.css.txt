@@ -1,0 +1,5 @@
+/* Customizing the font size and box size of shinyalert */
+.swal2-popup {
+  font-size: 14px;    /* Adjust as per requirement */
+  width: 50%;        /* Adjust width as per requirement */
+}

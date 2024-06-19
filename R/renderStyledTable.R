@@ -1,6 +1,6 @@
 renderStyledTable <- function(table_name, rownames = TRUE, download_version = c()) {
   # Render a styled DataTable with enhanced features and customization options
-
+  
   renderDT({
     datatable(
       table_name,
@@ -11,8 +11,10 @@ renderStyledTable <- function(table_name, rownames = TRUE, download_version = c(
         pageLength = 10,  # Number of rows per page
         autoWidth = TRUE,  # Automatic column width
         scrollY = '400px',  # Vertical scrolling
+        scrollX = TRUE,  # Horizontal scrolling
         scrollCollapse = TRUE,  # Allow row height to shrink to fit data
-        scroller = list(loadingIndicator = TRUE)  # Enable loading indicator for large datasets
+        scroller = list(loadingIndicator = TRUE),  # Enable loading indicator for large datasets
+        fixedHeader = TRUE  # Fix the header
       ),
       rownames = rownames,
       class = 'cell-border stripe hover'  # Table styling classes

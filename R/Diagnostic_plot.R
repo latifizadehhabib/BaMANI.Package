@@ -13,14 +13,14 @@ Diagnostic_plot <- function(num.white_thresh, num_arcs.All.thresh, Total.BIC.thr
   
   # Combine data into data frame
   Combine <- data.frame(x = as.numeric(x1),
-                        num.white = as.numeric(y1),
-                        num.arcs = as.numeric(y2),
+                        Whitelist = as.numeric(y1),
+                        DAG = as.numeric(y2),
                         Tot.BIC = as.numeric(y3))
   
   threshold.temp <- signif(threshold, digits = 1)
   
   # color palette and custom theme
-  palette <- c("num.white" = "#0072B2", "num.arcs" = "#D55E00", "Tot.BIC" = "#009966")
+  palette <- c("Whitelist" = "#0072B2", "DAG" = "#D55E00", "Tot.BIC" = "#009966")
   
   custom_theme <- theme_bw() + 
     theme(
@@ -30,11 +30,11 @@ Diagnostic_plot <- function(num.white_thresh, num_arcs.All.thresh, Total.BIC.thr
   
   # First plot: Final DAG vs. WhiteList
   p1 <- ggplot(Combine, aes(x = x)) +
-    geom_point(aes(y = num.white, fill = "num.white"), size = 2.5, color = palette["num.white"], shape = 21) +
-    geom_line(aes(y = num.white), color = palette["num.white"], size = 1.2) +
-    geom_point(aes(y = num.arcs, fill = "num.arcs"), size = 2.5, color = palette["num.arcs"], shape = 21) +
-    geom_line(aes(y = num.arcs), color = palette["num.arcs"], size = 1.2) +
-    labs(title = "Final DAG vs. WhiteList", y = "Number of Arcs") +
+    geom_point(aes(y = Whitelist, fill = "Whitelist"), size = 2.5, color = palette["Whitelist"], shape = 21) +
+    geom_line(aes(y = Whitelist), color = palette["Whitelist"], size = 1.2) +
+    geom_point(aes(y = DAG, fill = "DAG"), size = 2.5, color = palette["DAG"], shape = 21) +
+    geom_line(aes(y = DAG), color = palette["DAG"], size = 1.2) +
+    labs(title = "DAG vs. WhiteList", y = "Number of Arcs") +
     scale_x_continuous(breaks = seq(min(Combine$x), max(Combine$x), by = 1), labels = c("empty.Graph", 0, threshold.temp, "all.arcs")) +
     xlab(NULL) +
     scale_fill_manual(values = palette) +

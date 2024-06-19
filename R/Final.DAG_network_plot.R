@@ -64,7 +64,7 @@ Final.DAG_network_plot <- function(augmented_edge_list,
       possible.white.list <- setdiff(possible.white.list, common_arcs)
     }
   }
-  # print("i made it here 4")
+  # print("check 4")
 
   # ---------------
   arstr <- boot.strength(discretized_data, R = nboot, algorithm = "mmhc", cluster = cl, algorithm.args = list(whitelist = possible.white.list, blacklist = Black_List))
@@ -79,7 +79,12 @@ Final.DAG_network_plot <- function(augmented_edge_list,
 
   
 
-
+  cat("------------------------------", "\n")
+  print("Fited DAG:")
+  cat("------------------------------", "\n")
+  print(fBRCABN)
+  
+  
   # ----------------
   BRCA_str = arc.strength(ave.BRCA, data = discretized_data)
   weight.strength <- BRCA_str$strength
@@ -88,7 +93,7 @@ Final.DAG_network_plot <- function(augmented_edge_list,
   # ----------------------------------
   arc_slopes <- data.frame(from = character(), to = character(), slope = numeric())
 
-  print("i made it here 5")
+  # print("check 5")
 
   # iterate over all nodes in network
   for(node in nodes(fBRCABN)) {
@@ -111,7 +116,12 @@ Final.DAG_network_plot <- function(augmented_edge_list,
   # arc_slopes.strength <- merge(arcs_strength, arc_slopes)
   arc_slopes.strength <- merge(arcs_strength, arc_slopes, by = c("from", "to"), all = TRUE)
 
-
+  cat("------------------------------", "\n")
+  print("Arc slope and strength:")
+  cat("------------------------------", "\n")
+  print(arc_slopes.strength)
+  
+  
   #------------------------------------------------  visNetwork
   # Apply transformation
   transformed_values <- sapply(arcs_strength$P_strength, function(p) -log10(p))
@@ -124,15 +134,39 @@ Final.DAG_network_plot <- function(augmented_edge_list,
 
   # Normalize transformed values
   normalized_weights <- rescale(transformed_values, to = c(0, 1))
-  #------------------------------------------------ 
-  # create nodes & edges datafrme
-
+  
+  # -------------------------- recently updated
+  # Calculate intercepts for each node
+  intercepts <- list()
+  for(node in nodes(fBRCABN)) {
+    node_coefs <- coef(fBRCABN)[[node]]
+    intercepts[[node]] <- node_coefs["(Intercept)"]
+  }
+  
+  
+  # Generate unique node IDs
+  unique_nodes <- unique(c(arc_slopes.strength$from, arc_slopes.strength$to))
+  
+  # #-------------------------
   nodes <- data.frame(id = unique(c(arc_slopes.strength$from, arc_slopes.strength$to)), 
                       label = unique(c(arc_slopes.strength$from, arc_slopes.strength$to)))
+    # #-------------------------
+  # Create nodes data frame
+  nodes_intercept <- data.frame(
+    id = unique(c(arc_slopes.strength$from, arc_slopes.strength$to)), 
+    label = sapply(unique(c(arc_slopes.strength$from, arc_slopes.strength$to)), 
+                   function(x) paste(x, " (", formatC(intercepts[[x]], format = "f", digits = 2), ")", sep="")),
+    group = 1
+  )
+  
+  # #------------------------------------------------  previous version
+  # # create nodes & edges datafrme
+  # nodes <- data.frame(id = unique(c(arc_slopes.strength$from, arc_slopes.strength$to)), 
+  #                     label = unique(c(arc_slopes.strength$from, arc_slopes.strength$to)))
 
   # --------------------------
   # -----------------------------------
-  #source("calculate_cor_sign.R")
+  source("calculate_cor_sign.R")
   CorSign <- calculate_cor_sign(arcs.BRCA, corrcoef)
   
   HLarcs <- arcs.BRCA[CorSign == "-",]
@@ -150,17 +184,28 @@ Final.DAG_network_plot <- function(augmented_edge_list,
   # Remove key column from arc_slopes.strength after its use
   arc_slopes.strength$key <- NULL
   
-  
-  # Apply colors based on presence of arcs in HLarcs
+  # -------------------------- recently updated
+  # Create edges dataframe from existing arc slopes strength data
   edges <- data.frame(
     from = arc_slopes.strength$from, 
     to = arc_slopes.strength$to, 
     arrows = 'to', 
     color = ifelse(in_HLarcs, "red", "black"), 
-    label = paste0("  ", as.character(signif(arc_slopes.strength$slope, digits = 2)), "  "),  # Added spaces
-    value = normalized_weights  # Use normalized arc strength as value
+    label = paste0("  ", as.character(signif(arc_slopes.strength$slope, digits = 2)), "  "),  
+    value = normalized_weights
   )
   
+  # # #------------------------------------------------  previous version
+  # # Apply colors based on presence of arcs in HLarcs
+  # edges <- data.frame(
+  #   from = arc_slopes.strength$from, 
+  #   to = arc_slopes.strength$to, 
+  #   arrows = 'to', 
+  #   color = ifelse(in_HLarcs, "red", "black"), 
+  #   label = paste0("  ", as.character(signif(arc_slopes.strength$slope, digits = 2)), "  "),  # Added spaces
+  #   value = normalized_weights  # Use normalized arc strength as value
+  # )
+  # -------------------------- 
   # Ensure final DAG detail also uses this color logic
   final_DAG_detail <- data.frame(
     from = arc_slopes.strength$from, 
@@ -169,30 +214,71 @@ Final.DAG_network_plot <- function(augmented_edge_list,
     Effect_Size = paste0("  ", as.character(signif(arc_slopes.strength$slope, digits = 2)), "  "),  # Added spaces
     Arc_strength = paste0("  ", as.character(signif(normalized_weights, digits = 2)), "  ")   # Use normalized arc strength as value
   )
+  # -------------------------- recently updated
   # --------------------------
-
   network <- visNetwork(nodes, edges, width = "100%") %>%
     visNodes(shape = "circle",
-            font = list(size = 12, 
-                        vadjust = 0, 
-                        bold = TRUE, 
-                        color = "black")) %>%
+             font = list(size = 12, 
+                         vadjust = 0, 
+                         bold = TRUE, 
+                         color = "black")) %>%
     visEdges(smooth = TRUE, 
-            value = "value",  
-            font = list(size = 15, color = "black", background = 'rgba(255, 255, 255, 0.7)')) %>%
+             value = "value",  
+             font = list(size = 15, color = "black", background = 'rgba(255, 255, 255, 0.7)')) %>%
     visOptions(highlightNearest = list(enabled = T, hover = T),
-              nodesIdSelection = TRUE) %>%
+               nodesIdSelection = TRUE) %>%
     visLayout(randomSeed = 123, 
               improvedLayout = TRUE)  %>%
     visPhysics(solver = "forceAtlas2Based",  # physics solver
-              forceAtlas2Based = list(gravitationalConstant = -50,  # Adjust as needed
-                                      centralGravity = 0.005,  # Adjust as needed
-                                      springLength = 100,  # Adjust as needed
-                                      springConstant = 0.18))  # Adjust as needed 
-
-
+               forceAtlas2Based = list(gravitationalConstant = -50,  # Adjust as needed
+                                       centralGravity = 0.005,  # Adjust as needed
+                                       springLength = 100,  # Adjust as needed
+                                       springConstant = 0.18))  # Adjust as needed 
+  
+  
   print("Network object created:")
   print(summary(network))  # or simply print(network) if that's more informative
+  # --------------------------
+  network_intercept <- visNetwork(nodes_intercept, edges, width = "100%") %>%
+    # visNodes(shape = "circle", margin = 10, font = list(size = 12, face = "bold", multi = 'html', align = 'center'), scaling = list(label = list(enabled = TRUE, min = 10, max = 30))) %>%
+    visNodes(font = list(size = 16, face = "bold")) %>%
+    visEdges(smooth = TRUE, 
+             value = "value",  
+             font = list(size = 12, color = "black", background = 'rgba(255, 255, 255, 0.7)')) %>%
+    visOptions(highlightNearest = list(enabled = T, hover = T),
+               nodesIdSelection = TRUE) %>%
+    visLayout(randomSeed = 123, improvedLayout = TRUE) %>%
+    visPhysics(solver = "forceAtlas2Based",
+               forceAtlas2Based = list(gravitationalConstant = -50,
+                                       centralGravity = 0.005,
+                                       springLength = 100,
+                                       springConstant = 0.18))
+  
+  
+  # Display network
+  print("Network object created:")
+  print(network_intercept)
+  print(summary(network_intercept))  # or simply print(network) if that's more informative
+  
+  # # #------------------------------------------------  previous version
+  # network <- visNetwork(nodes, edges, width = "100%") %>%
+  #   visNodes( ) %>%
+  #   visEdges(smooth = TRUE, 
+  #           value = "value",  
+  #           font = list(size = 15, color = "black", background = 'rgba(255, 255, 255, 0.7)')) %>%
+  #   visOptions(highlightNearest = list(enabled = T, hover = T),
+  #             nodesIdSelection = TRUE) %>%
+  #   visLayout(randomSeed = 123, 
+  #             improvedLayout = TRUE)  %>%
+  #   visPhysics(solver = "forceAtlas2Based",  # physics solver
+  #             forceAtlas2Based = list(gravitationalConstant = -50,  # Adjust as needed
+  #                                     centralGravity = 0.005,  # Adjust as needed
+  #                                     springLength = 100,  # Adjust as needed
+  #                                     springConstant = 0.18))  # Adjust as needed 
+  # 
+  # 
+  # print("Network object created:")
+  # print(summary(network))  # or simply print(network) if that's more informative
   
   # ----------------------------------- 
   temp <- augmented_edge_list %>%
@@ -335,6 +421,7 @@ Final.DAG_network_plot <- function(augmented_edge_list,
   return(list(fBRCABN = fBRCABN, 
               Alg.Count_arcs.strength.table = Alg.Count_arcs.strength.table, 
               network = network,
+              network_intercept = network_intercept,
               final_DAG_detail = final_DAG_detail,
               
               arcs.BRCA = arcs.BRCA,

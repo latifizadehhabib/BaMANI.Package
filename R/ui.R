@@ -38,7 +38,7 @@ ui <- function() {
     dashboardHeader(title = "BaMANI"),
 
     dashboardSidebar(
-      useShinyjs(),  # Initialize shinyjs
+      useShinyjs(),
       sidebarMenu(
         id = "sidebarMenu",
         menuItem("Settings", tabName = "settings", icon = icon("gear")),
@@ -49,27 +49,31 @@ ui <- function() {
                  menuSubItem("Data Structure", tabName = "data_characteristics_Distribution_Correlation_BlackList")
         ),
 
-        menuItem("Algorithms", icon = icon("cogs"),
-                 menuSubItem("Learning Process", tabName = "directed_Undirected_algorithm_messages")
+        menuItem("Algorithms Training", icon = icon("cogs"),
+                 menuSubItem("Learning Dynamics", tabName = "directed_Undirected_algorithm_messages")
         ),
 
-        menuItem("Edges", icon = icon("project-diagram"),
+        menuItem("Arcs Info", icon = icon("project-diagram"),
+                 # menuItem("Edges", icon = icon("project-diagram"),
 
-                 menuSubItem("Augmented arcs table", tabName = "augmented_edge_list_thresh_cols_possible_seed_arcs_table")
+
+                 menuSubItem("Augmented Arcs Table", tabName = "augmented_edge_list_thresh_cols_possible_seed_arcs_table")
         ),
 
-        menuItem("Diagnostics", icon = icon("vial"),
+        menuItem("Whitelisting Arcs", icon = icon("vial"),
+                 # menuItem("Diagnostics", icon = icon("vial"),
 
-                 menuSubItem("Model selection", tabName = "L1_Parent_bic_table"),
+
+                 menuSubItem("Model Selection", tabName = "L1_Parent_bic_table"),
                  menuSubItem("Whitelisted Arcs & Acyclicity", tabName = "WhiteList_Check_acyclicity")
         ),
 
-        menuItem("Plots", icon = icon("chart-line"),
+        menuItem("DAG Network Analysis", icon = icon("chart-line"),
 
-                 menuSubItem("Diagnostic Plot", tabName = "Algorithm_Count__Arc_Strength_diagnostic_plot"),
-                 menuSubItem("DAG Network", tabName = "DAG_network_plot"),
-                 menuSubItem("Comparative Analysis", tabName = "contour_plot"),
-                 menuSubItem("Single Algorithm Network", tabName = "run_algorithms_plot")
+                 menuSubItem("Diagnostic Plot", tabName = "Algorithm_Count__Arc_Strength_diagnostic_plot"), # icon = icon("analysis-panel")
+                 menuSubItem("Ensemble DAG Network", tabName = "DAG_network_plot"),
+                 menuSubItem("Ensemble vs. Single Algorithm", tabName = "run_algorithms_plot"), # icon = icon("bar-chart-o")
+                 menuSubItem("Comparative Analysis", tabName = "contour_plot")
         )
       )
     ),
@@ -77,7 +81,140 @@ ui <- function() {
     dashboardBody(
       # -----------
       useShinyjs(),
-      # ----------- Single DAG plot
+      # ----------- download Radar plot
+      # tags$head(
+      #   tags$script(HTML("
+      #     $(document).ready(function() {
+      #         $('#downloadPlot_radar_plot').on('click', function(event) {
+      #             event.preventDefault(); // Stop the button from doing any default submission
+      #             var img = document.querySelector('#radar_plot img'); // Correctly escape the dot in the ID
+      #             if (img && img.src) {
+      #                 var date = new Date();
+      #                 var timestamp = date.getFullYear() + '-' +
+      #                                 ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
+      #                                 ('0' + date.getDate()).slice(-2) + '-' +
+      #                                 ('0' + date.getHours()).slice(-2) + '-' +
+      #                                 ('0' + date.getMinutes()).slice(-2) + '-' +
+      #                                 ('0' + date.getSeconds()).slice(-2);
+      #                 var link = document.createElement('a');
+      #                 link.download = 'Radar-Plot-' + timestamp + '.png'; // Create a file name with timestamp
+      #                 link.href = img.src; // Directly use the image's URL
+      #                 document.body.appendChild(link);
+      #                 link.click(); // Trigger the download
+      #                 document.body.removeChild(link);
+      #             } else {
+      #                 console.log('No image found for download.'); // If no image, log error
+      #             }
+      #         });
+      #     });
+      #   "))),
+      # -----------download Bar Plot
+      tags$head(
+        tags$script(HTML("
+        $(document).ready(function() {
+            $('#downloadBarPlot').on('click', function(event) {
+                event.preventDefault(); // Prevent the form from submitting via the default action
+                var img = document.querySelector('#bar_plot img'); // Select the image within the bar_plot div
+                if (img && img.src) {
+                    var date = new Date();
+                    var timestamp = date.getFullYear() + '-' +
+                                    ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
+                                    ('0' + date.getDate()).slice(-2) + '-' +
+                                    ('0' + date.getHours()).slice(-2) + '-' +
+                                    ('0' + date.getMinutes()).slice(-2) + '-' +
+                                    ('0' + date.getSeconds()).slice(-2);
+                    var link = document.createElement('a');
+                    link.download = 'Bar-Plot-' + timestamp + '.png'; // Set the download filename with timestamp
+                    link.href = img.src; // Set the href to the source of the image
+                    document.body.appendChild(link);
+                    link.click(); // Programmatically click the link to trigger the download
+                    document.body.removeChild(link); // Remove the link when done
+                } else {
+                    console.log('No image found for download.'); // Log an error if no image was found
+                }
+            });
+        });
+      "))),
+      # ----------- download Scatter Plot
+      tags$head(
+        tags$script(HTML("
+        $(document).ready(function() {
+            $('#downloadScatterPlot').on('click', function(event) {
+                event.preventDefault(); // Prevent the form from submitting via the default action
+                var img = document.querySelector('#scatter_plot img'); // Select the image within the scatter_plot div
+                if (img && img.src) {
+                    var date = new Date();
+                    var timestamp = date.getFullYear() + '-' +
+                                    ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
+                                    ('0' + date.getDate()).slice(-2) + '-' +
+                                    ('0' + date.getHours()).slice(-2) + '-' +
+                                    ('0' + date.getMinutes()).slice(-2) + '-' +
+                                    ('0' + date.getSeconds()).slice(-2);
+                    var link = document.createElement('a');
+                    link.download = 'Scatter-Plot-' + timestamp + '.png'; // Set the download filename with timestamp
+                    link.href = img.src; // Set the href to the source of the image
+                    document.body.appendChild(link);
+                    link.click(); // Programmatically click the link to trigger the download
+                    document.body.removeChild(link); // Remove the link when done
+                } else {
+                    console.log('No image found for download.'); // Log an error if no image was found
+                }
+            });
+        });
+      "))),
+      # ----------- download Single DAG plot tab color
+      # tags$head(
+      #   tags$style(HTML("
+      #   /* Matching the tab headers to box colors in singleAlg.DAG */
+      #   #singleAlg\\.DAG .nav-tabs > li.active > a,
+      #   #singleAlg\\.DAG .nav-tabs > li.active > a:focus,
+      #   #singleAlg\\.DAG .nav-tabs > li.active > a:hover {
+      #     color: white !important;
+      #   }
+      #   #singleAlg\\.DAG .nav-tabs > li > a[data-value='Single Algorithm DAG network'] {
+      #     background-color: #337ab7 !important; /* Bootstrap primary color for 'primary' */
+      #     color: white !important;
+      #   }
+      #   #singleAlg\\.DAG .nav-tabs > li > a[data-value='DAG network Table'] {
+      #     background-color: #5cb85c !important; /* Bootstrap success color for 'success' */
+      #     color: white !important;
+      #   }
+      # "))
+      # ),
+      # ----------- Single DAG plot tab color
+
+      # tags$head(
+      #   tags$style(HTML("
+      #   /* Matching the tab headers to box colors in singleAlg.DAG */
+      #   #singleAlg\\.DAG a[data-value='DAG network'] {
+      #     background-color: #337ab7 !important; /* Bootstrap primary color for 'primary' */
+      #     color: white !important;
+      #   }
+      #   #singleAlg\\.DAG a[data-value='Single Algorithm DAG Summary Table'] {
+      #     background-color: #5cb85c; /* Bootstrap success color for 'success' */
+      #     color: white !important;
+      #   }
+      # "))
+      # ),
+      # ----------- Single DAG plot tab color
+
+      # tags$head(
+      #   tags$style(HTML("
+      #     /* Matching the tab headers to box colors in singleAlg.DAG */
+      #     #singleAlg.DAG a[data-value='DAG network'] {
+      #         background-color: #337ab7 !important; /* Bootstrap primary color for 'primary' */
+      #         color: white !important;
+      #     }
+      #     #singleAlg.DAG a[data-value='Single Algorithm DAG Summary Table'] {
+      #         background-color: #5cb85c; /* Bootstrap success color for 'success' */
+      #         color: white;
+      #     }
+      # "))
+      # ),
+
+      # ----------- Single DAG plot download
+
+
       tags$head(
         tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"),
         tags$script(HTML("
@@ -88,13 +225,27 @@ ui <- function() {
             // Logging for debugging
             console.log('Button clicked, generating canvas...');
 
-            html2canvas(document.querySelector('#plot_output_container'), {
-                scale: 6,
+            // Fetching the dimensions of the plot container
+            var plotContainer = document.querySelector('#plot_output_container');
+            var plotContainerWidth = plotContainer.offsetWidth;
+            var plotContainerHeight = plotContainer.offsetHeight;
+
+            // Set the canvas dimensions
+            var canvas = document.createElement('canvas');
+            canvas.width = plotContainerWidth * 2; // Increase the resolution by scaling
+            canvas.height = plotContainerHeight * 2; // Increase the resolution by scaling
+            canvas.style.width = plotContainerWidth + 'px';
+            canvas.style.height = plotContainerHeight + 'px';
+            var context = canvas.getContext('2d');
+            context.scale(2, 2);
+
+            html2canvas(plotContainer, {
+                canvas: canvas,
                 useCORS: true,
                 scrollY: -window.scrollY,
                 scrollX: -window.scrollX,
-                windowWidth: document.querySelector('#plot_output_container').scrollWidth,
-                windowHeight: document.querySelector('#plot_output_container').scrollHeight
+                width: plotContainerWidth,
+                height: plotContainerHeight
             }).then(function(canvas) {
                 // Logging for debugging
                 console.log('Canvas generated, creating download link...');
@@ -120,32 +271,206 @@ ui <- function() {
     });
   "))
       ),
+
+      # ----------- Single DAG plot
+      #   tags$head(
+      #     tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"),
+      #     tags$script(HTML("
+      #   $(document).ready(function() {
+      #       $('#downloadPlot_run').on('click', function() {
+      #           var algorithmName = $('#alg_directed').val(); // Fetching the selected algorithm name
+      #
+      #           // Logging for debugging
+      #           console.log('Button clicked, generating canvas...');
+      #
+      #           html2canvas(document.querySelector('#plot_output_container'), {
+      #               scale: 6,
+      #               useCORS: true,
+      #               scrollY: -window.scrollY,
+      #               scrollX: -window.scrollX,
+      #               windowWidth: document.querySelector('#plot_output_container').scrollWidth,
+      #               windowHeight: document.querySelector('#plot_output_container').scrollHeight
+      #           }).then(function(canvas) {
+      #               // Logging for debugging
+      #               console.log('Canvas generated, creating download link...');
+      #
+      #               var date = new Date();
+      #               var timestamp = date.getFullYear() + '-' +
+      #                               ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
+      #                               ('0' + date.getDate()).slice(-2) + '-' +
+      #                               ('0' + date.getHours()).slice(-2) + '-' +
+      #                               ('0' + date.getMinutes()).slice(-2) + '-' +
+      #                               ('0' + date.getSeconds()).slice(-2);
+      #               var link = document.createElement('a');
+      #               link.download = algorithmName + '-Plot-' + timestamp + '.png'; // Including algorithm name in the file name
+      #               link.href = canvas.toDataURL('image/png');
+      #               link.click();
+      #
+      #               // Logging for debugging
+      #               console.log('Download link clicked, PNG should start downloading...');
+      #           }).catch(function(error) {
+      #               console.error('Error generating canvas:', error);
+      #           });
+      #       });
+      #   });
+      # "))
+      #   ),
       # ----------- for renderStyledTable function
+      # tags$head(
+      #   tags$style(HTML("
+      #   /* Center align text in column headers and apply light blue background */
+      #   table.dataTable thead th {
+      #     text-align: center !important;
+      #     background-color: #e0f7fa; /* Light blue color */
+      #   }
+      #   /* Style for cell borders, hover, and stripes */
+      #   .cell-border, .stripe, .hover {
+      #     border-top: 1px solid #dee2e6;
+      #     border-bottom: 1px solid #dee2e6;
+      #   }
+      # "))
+      # ),
+      # # -----------
+      # tags$style(type = "text/css",
+      #            ".box {
+      #               border: 1px solid #ccc;
+      #               box-shadow: 2px 2px 8px #aaa;
+      #             }
+      #             .info-icon {
+      #               font-size: 16px;
+      #               color: blue;
+      #               cursor: pointer;
+      #             }"),
+      #-----------
+
+      #-----------
       tags$head(
-        tags$style(HTML("
-      /* Center align text in column headers and apply light blue background */
-      table.dataTable thead th {
-        text-align: center !important;
-        background-color: #e0f7fa; /* Light blue color */
-      }
-      /* Style for cell borders, hover, and stripes */
-      .cell-border, .stripe, .hover {
-        border-top: 1px solid #dee2e6;
-        border-bottom: 1px solid #dee2e6;
-      }
-    "))
+        tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"),
+        tags$script(HTML("
+    $(document).ready(function() {
+        $('#downloadPlot_Correlation_Dendrograms').on('click', function() {
+            html2canvas(document.querySelector('#correlation_structure'), {
+                scale: 4, // Increasing scale for higher resolution
+                useCORS: true,
+                scrollY: -window.scrollY,
+                scrollX: -window.scrollX,
+                windowWidth: document.querySelector('#correlation_structure').scrollWidth,
+                windowHeight: document.querySelector('#correlation_structure').scrollHeight
+            }).then(function(canvas) {
+                var date = new Date();
+                var timestamp = date.getFullYear() + '-' +
+                                ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
+                                ('0' + date.getDate()).slice(-2) + '-' +
+                                ('0' + date.getHours()).slice(-2) + '-' +
+                                ('0' + date.getMinutes()).slice(-2) + '-' +
+                                ('0' + date.getSeconds()).slice(-2);
+                var link = document.createElement('a');
+                link.download = 'Correlation-Dendrograms-' + timestamp + '.png'; // Adjusted filename
+                link.href = canvas.toDataURL('image/png');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+        });
+    });
+  "))
       ),
       # -----------
-      tags$style(type = "text/css",
-                 ".box {
-                  border: 1px solid #ccc;
-                  box-shadow: 2px 2px 8px #aaa;
-                }
-                .info-icon {
-                  font-size: 16px;
-                  color: blue;
-                  cursor: pointer;
-                }"),
+      tags$head(
+        tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"),
+        tags$script(HTML("
+    $(document).ready(function() {
+        $('#downloadPlot_Significant_Correlation').on('click', function() {
+            html2canvas(document.querySelector('#correlation_structure_pi_sig'), {
+                scale: 4, // Increasing scale for higher resolution
+                useCORS: true,
+                scrollY: -window.scrollY,
+                scrollX: -window.scrollX,
+                windowWidth: document.querySelector('#correlation_structure_pi_sig').scrollWidth,
+                windowHeight: document.querySelector('#correlation_structure_pi_sig').scrollHeight
+            }).then(function(canvas) {
+                var date = new Date();
+                var timestamp = date.getFullYear() + '-' +
+                                ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
+                                ('0' + date.getDate()).slice(-2) + '-' +
+                                ('0' + date.getHours()).slice(-2) + '-' +
+                                ('0' + date.getMinutes()).slice(-2) + '-' +
+                                ('0' + date.getSeconds()).slice(-2);
+                var link = document.createElement('a');
+                link.download = 'Significant-Correlation-' + timestamp + '.png'; // Adjusted filename
+                link.href = canvas.toDataURL('image/png');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+        });
+    });
+  "))
+      ),
+      # -----------
+      tags$head(
+        tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"),
+        tags$script(HTML("
+    $(document).ready(function() {
+        $('#downloadPlot_Data_Distribution').on('click', function() {
+            html2canvas(document.querySelector('#variable_distribution'), {
+                scale: 4, // Increasing scale for higher resolution
+                useCORS: true,
+                scrollY: -window.scrollY,
+                scrollX: -window.scrollX,
+                windowWidth: document.querySelector('#variable_distribution').scrollWidth,
+                windowHeight: document.querySelector('#variable_distribution').scrollHeight
+            }).then(function(canvas) {
+                var date = new Date();
+                var timestamp = date.getFullYear() + '-' +
+                                ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
+                                ('0' + date.getDate()).slice(-2) + '-' +
+                                ('0' + date.getHours()).slice(-2) + '-' +
+                                ('0' + date.getMinutes()).slice(-2) + '-' +
+                                ('0' + date.getSeconds()).slice(-2);
+                var link = document.createElement('a');
+                link.download = 'Data-Distribution-' + timestamp + '.png'; // Adjusted filename
+                link.href = canvas.toDataURL('image/png');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+        });
+    });
+  "))
+      ),
+      # -----------
+      tags$head(
+        tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"),
+        tags$script(HTML("
+    $(document).ready(function() {
+        $('#downloadPlot_DAG_flow_intercept').on('click', function() {
+            html2canvas(document.querySelector('#DAGNetworkPlot_intercept'), {
+                scale: 4, // Increasing scale for higher resolution
+                useCORS: true,
+                scrollY: -window.scrollY,
+                scrollX: -window.scrollX,
+                windowWidth: document.querySelector('#DAGNetworkPlot_intercept').scrollWidth,
+                windowHeight: document.querySelector('#DAGNetworkPlot_intercept').scrollHeight
+            }).then(function(canvas) {
+                var date = new Date();
+                var timestamp = date.getFullYear() + '-' +
+                                ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
+                                ('0' + date.getDate()).slice(-2) + '-' +
+                                ('0' + date.getHours()).slice(-2) + '-' +
+                                ('0' + date.getMinutes()).slice(-2) + '-' +
+                                ('0' + date.getSeconds()).slice(-2);
+                var link = document.createElement('a');
+                link.download = 'DAG-Network-Intercept-Plot-' + timestamp + '.png'; // Adjusted filename
+                link.href = canvas.toDataURL('image/png');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+        });
+    });
+  "))
+      ),
       # -----------
       tags$head(
         tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"),
@@ -209,128 +534,128 @@ ui <- function() {
         "))
       ),
       # -----------
-      tags$head(
-        tags$style(HTML("
-        /* Matching the tab headers to box colors in tabset33 */
-        #tabset33 a[data-value='DAG network flow'] {
-            background-color: #337ab7 !important; /* Bootstrap primary color for 'primary' */
-            color: white !important;
-        }
-        #tabset33 a[data-value='DAG Network Plot'] {
-            background-color: #5cb85c; /* Bootstrap success color for 'success' */
-            color: white;
-        }
-        #tabset33 a[data-value='Arc Slopes Strength Table'] {
-            background-color: #5bc0de; /* Bootstrap info color for 'info' */
-            color: white;
-        }
-    "))
-      ),
+      #   tags$head(
+      #     tags$style(HTML("
+      #       /* Matching the tab headers to box colors in tabset33 */
+      #       #tabset33 a[data-value='DAG network flow'] {
+      #           background-color: #337ab7 !important; /* Bootstrap primary color for 'primary' */
+      #           color: white !important;
+      #       }
+      #       #tabset33 a[data-value='DAG Network Plot'] {
+      #           background-color: #5cb85c; /* Bootstrap success color for 'success' */
+      #           color: white;
+      #       }
+      #       #tabset33 a[data-value='Single Algorithm DAG Summary Table'] {
+      #           background-color: #5bc0de; /* Bootstrap info color for 'info' */
+      #           color: white;
+      #       }
+      #   "))
+      #   ),
+      #   # -----------
+      #   tags$head(
+      #     tags$style(HTML("
+      #   #tabset6 a[data-value='Whitelist and BIC per threshold'] {
+      #       background-color: #337ab7 !important; /* Bootstrap primary color for 'primary' */
+      #       color: white !important;
+      #   }
+      #   #tabset6 a[data-value='Algorithm count and arc strength'] {
+      #       background-color: #5bc0de !important; /* Bootstrap info color for 'info' */
+      #       color: white !important;
+      #   }
+      # "))
+      #   ),
       # -----------
-      tags$head(
-        tags$style(HTML("
-    #tabset6 a[data-value='Whitelist and BIC per threshold'] {
-        background-color: #337ab7 !important; /* Bootstrap primary color for 'primary' */
-        color: white !important;
-    }
-    #tabset6 a[data-value='Algorithm count and arc strength'] {
-        background-color: #5bc0de !important; /* Bootstrap info color for 'info' */
-        color: white !important;
-    }
-  "))
-      ),
-      # -----------
-      tags$head(
-        tags$style(HTML("
-        #tabset14 a[data-value='Data Distribution'] {
-            background-color: #337ab7; /* Blue for 'primary' */
-            color: white;
-        }
-        #tabset14 a[data-value='Correlation Structure'] {
-            background-color: #5cb85c; /* Green for 'success' */
-            color: white;
-        }
-        #tabset14 a[data-value='Data characteristics'] {
-            background-color: #f0ad4e; /* Yellow for 'warning' */
-            color: white;
-        }
-        #tabset14 a[data-value='BlackList'] {
-            background-color: #d9534f; /* Red for 'danger' */
-            color: white;
-        }
-    "))
-      ),
-      # -----------
-      tags$head(
-        tags$style(HTML("
-        /* Matching the tab headers to box colors in tabset12 */
-        #tabset12 a[data-value='Augmented Arcs'] {
-            background-color: #337ab7; /* Bootstrap primary color for 'primary' */
-            color: white;
-        }
-        #tabset12 a[data-value='Threshold & Arcs'] {
-            background-color: #5cb85c; /* Bootstrap success color for 'success' */
-            color: white;
-        }
-        #tabset12 a[data-value='Possible seed Arcs'] {
-            background-color: #5bc0de; /* Bootstrap info color for 'info' */
-            color: white;
-        }
-    "))
-      ),
-      # -----------
-      tags$head(
-        tags$style(HTML("
-        #tabset10 a[data-value='Loss function table'] {
-            background-color: #337ab7; /* Blue */
-            color: white;
-        }
-        #tabset10 a[data-value='Number parent table'] {
-            background-color: #5cb85c; /* Green */
-            color: white;
-        }
-        #tabset10 a[data-value='BIC table'] {
-            background-color: #5bc0de; /* Light Blue */
-            color: white;
-        }
-        #tabset10 a[data-value='Min BIC table'] {
-            background-color: #f0ad4e; /* Yellow */
-            color: white;
-        }
-        #tabset10 a[data-value='Possible WhiteList'] {
-            background-color: #d9534f; /* Red */
-            color: white;
-        }
-    "))
-      ),
-      # -----------
-      tags$head(
-        tags$style(HTML("
-    /* Matching the tab headers to box colors in tabset81 */
-    #tabset81 a[data-value='WhiteList Check Acyclicity'] {
-      background-color: #337ab7; /* Bootstrap primary color for 'primary' status */
-      color: white;
-    }
-    #tabset81 a[data-value='Final Whitelist'] {
-      background-color: #5bc0de; /* Bootstrap info color for 'info' status */
-      color: white;
-    }
-  "))
-      ),
-      # -----------
-      tags$head(
-        tags$style(HTML("
-    /* Matching the tab headers to box colors in tabset3 */
-    #tabset3 a[data-value='Algorithm Progression'] {
-      background-color: #337ab7; /* Bootstrap primary color for 'primary' status */
-      color: white;
-    }
-    #tabset3 a[data-value='List of Arc'] {
-      background-color: #5bc0de; /* Bootstrap info color for 'info' status */
-      color: white;
-    }
-  "))
-      ),
+      # tags$head(
+      #   tags$style(HTML("
+      #     #tabset14 a[data-value='Data Distribution'] {
+      #         background-color: #337ab7; /* Blue for 'primary' */
+      #         color: white;
+      #     }
+      #     #tabset14 a[data-value='Correlation Structure'] {
+      #         background-color: #5cb85c; /* Green for 'success' */
+      #         color: white;
+      #     }
+      #     #tabset14 a[data-value='Data characteristics'] {
+      #         background-color: #f0ad4e; /* Yellow for 'warning' */
+      #         color: white;
+      #     }
+      #     #tabset14 a[data-value='BlackList'] {
+      #         background-color: #d9534f; /* Red for 'danger' */
+      #         color: white;
+      #     }
+      # "))
+      # ),
+      # # -----------
+      # tags$head(
+      #   tags$style(HTML("
+      #     /* Matching the tab headers to box colors in tabset12 */
+      #     #tabset12 a[data-value='Augmented Arcs'] {
+      #         background-color: #337ab7; /* Bootstrap primary color for 'primary' */
+      #         color: white;
+      #     }
+      #     #tabset12 a[data-value='Threshold & Arcs'] {
+      #         background-color: #5cb85c; /* Bootstrap success color for 'success' */
+      #         color: white;
+      #     }
+      #     #tabset12 a[data-value='Possible seed Arcs'] {
+      #         background-color: #5bc0de; /* Bootstrap info color for 'info' */
+      #         color: white;
+      #     }
+      # "))
+      # ),
+      #   # -----------
+      #   tags$head(
+      #     tags$style(HTML("
+      #       #tabset10 a[data-value='Loss function table'] {
+      #           background-color: #337ab7; /* Blue */
+      #           color: white;
+      #       }
+      #       #tabset10 a[data-value='Number parent table'] {
+      #           background-color: #5cb85c; /* Green */
+      #           color: white;
+      #       }
+      #       #tabset10 a[data-value='BIC table'] {
+      #           background-color: #5bc0de; /* Light Blue */
+      #           color: white;
+      #       }
+      #       #tabset10 a[data-value='Min BIC table'] {
+      #           background-color: #f0ad4e; /* Yellow */
+      #           color: white;
+      #       }
+      #       #tabset10 a[data-value='Possible WhiteList'] {
+      #           background-color: #d9534f; /* Red */
+      #           color: white;
+      #       }
+      #   "))
+      #   ),
+      #   # -----------
+      #   tags$head(
+      #     tags$style(HTML("
+      #   /* Matching the tab headers to box colors in tabset81 */
+      #   #tabset81 a[data-value='WhiteList Check Acyclicity'] {
+      #     background-color: #337ab7; /* Bootstrap primary color for 'primary' status */
+      #     color: white;
+      #   }
+      #   #tabset81 a[data-value='Final Whitelist'] {
+      #     background-color: #5bc0de; /* Bootstrap info color for 'info' status */
+      #     color: white;
+      #   }
+      # "))
+      #   ),
+      #   # -----------
+      #   tags$head(
+      #     tags$style(HTML("
+      #   /* Matching the tab headers to box colors in tabset3 */
+      #   #tabset3 a[data-value='Algorithm Progression'] {
+      #     background-color: #337ab7; /* Bootstrap primary color for 'primary' status */
+      #     color: white;
+      #   }
+      #   #tabset3 a[data-value='List of Arc'] {
+      #     background-color: #5bc0de; /* Bootstrap info color for 'info' status */
+      #     color: white;
+      #   }
+      # "))
+      #   ),
       #-----------
       tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "styles.css")),
       # -----------
@@ -376,10 +701,10 @@ $(document).on('click', '#goToTab', function() {
     }
     /* Additional styling for tab headers if needed */
     #tabset1 a[data-value='alg_progression'] {
-      background-color: #d1e8ff; /* Light blue for Algorithm Progression tab header */
+      background-color: #d1e8ff; /* Light blue for Algorithms Progression tab header */
     }
     #tabset1 a[data-value='list_of_arc'] {
-      background-color: #ffccd5; /* Light red/pink for List of Arc tab header */
+      background-color: #ffccd5; /* Light red/pink for List of Arcs tab header */
     }
   "))
       ),
@@ -398,7 +723,6 @@ $(document).on('click', '#goToTab', function() {
       # -----------------------------------------------------
       tabItems(
         tabItem(tabName = "user_guide",
-                #includeHTML("www/User_Guide.html")  # https://xodo.com/convert-pdf-to-html
                 tags$iframe(style="height:1000px; width:100%", src="User_Guide.pdf")
         ),
         tabItem(tabName = "settings",
@@ -407,14 +731,14 @@ $(document).on('click', '#goToTab', function() {
                   # UI
                   box(
                     width = 4,
-                    title = styled_title("Settings", bgcolor = "#4CAF50"), # Apply styled_title
+                    title = styled_title("Settings", bgcolor = "#4CAF50"),
                     solidHeader = TRUE,
                     status = "primary",
                     collapsible = TRUE,
                     # ----------------
                     fluidRow(
                       column(
-                        5, # Adjusted column width for better alignment
+                        5,
                         numericInput(inputId = "nboot",
                                      label = "Nboot",
                                      value = 10, min = 10, max = 1000000000000)
@@ -511,7 +835,7 @@ $(document).on('click', '#goToTab', function() {
                           )
                         )
                       )
-                    ),
+                    )
                     # ----------------
                   ),
                   # -----------------------------
@@ -528,7 +852,9 @@ $(document).on('click', '#goToTab', function() {
                         selectInput(
                           inputId = "algorithm_directed",
                           label = "Directed Algorithms",
-                          choices = c("iamb", "iamb.fdr", "pc.stable", "hc", "tabu", "mmhc", "rsmax2", "gs", "DAGMA"),
+                          choices = c("iamb", "iamb.fdr", "pc.stable", "hc", "tabu", "mmhc", "rsmax2", "gs"),
+                          # choices = c("iamb", "iamb.fdr", "pc.stable", "hc", "tabu", "mmhc", "rsmax2", "gs", "DAGMA"),
+
                           selected = NULL,
                           multiple = TRUE
                         )
@@ -590,7 +916,7 @@ $(document).on('click', '#goToTab', function() {
                     "<ul>
       <li>This <code>Data Distribution</code> tab provides a visual analysis of the distributions of variables in your dataset. Each variable is plotted as a histogram with a superimposed density plot, allowing for an initial assessment of each variable's distribution characteristics. These plots help in identifying how closely the variables approximate a normal distribution, offering insights into potential skewness and kurtosis. The tab is especially useful during the exploratory data analysis phase, aiding in decisions regarding data transformation and normalization for subsequent statistical analysis.</li>
       <li>This <code>Correlation Structure</code> tab visually represents the correlation matrix of the dataset using a heatmap, which is crucial for understanding the relationships among variables. The heatmap aids in identifying how variables in your dataset are interrelated, which can inform the structure of a causal Bayesian network. The color palette, ranging from blue to red, effectively highlights negative to positive correlations, respectively. Features like checking for NA or Inf values ensure data integrity before visualization. This tool is indispensable during the exploratory data analysis phase, aiding in decisions regarding model structure and further statistical analysis.</li>
-      <li>The <code>BlackList</code> plays a pivotal role in the <code>structural learning</code> and network inference processes within Bayesian networks, which are illustrated as Directed Acyclic Graphs (DAGs). This component is instrumental in molding the network structure, relying primarily on <code>prior knowledge </code> regarding the causal relationships amongst the data features. This list encompasses specific arcs, or <code>directed edges </code>, that are deliberately excluded from the proposed network, serving as constraints based on established or acknowledged information. This ensures the resultant structure and its causal interactions or arcs amongst nodes are in harmony with existing knowledge and logical constraints, thereby maintaining the integrity and accuracy of the network's representation of causal relationships.</li>
+      <li>The <code>BlackList</code> plays a pivotal role in the <code>structural learning</code> and network inference processes within Bayesian networks, which are illustrated as Directed Acyclic Graphs (DAGs). This component is instrumental in molding the network structure, relying primarily on <code>prior knowledge </code> regarding the causal relationships amongst the data features. This list encompasses specific arcs, or <code>directed edges, </code> that are deliberately excluded from the proposed network, serving as constraints based on established or acknowledged information. This ensures the resultant structure and its causal interactions or arcs amongst nodes are in harmony with existing knowledge and logical constraints, thereby maintaining the integrity and accuracy of the network's representation of causal relationships.</li>
     </ul>")
                 ),
                 tabsetPanel(id = "tabset14",
@@ -598,25 +924,57 @@ $(document).on('click', '#goToTab', function() {
                               title = "Data Distribution",
                               fluidRow(
                                 column(
-                                  12,  # Full width
+                                  12,
                                   div(
-                                    style = "width: 1200px; height: 600px; overflow: auto;",
+                                    style = "width: 1200px; height: 900px; overflow: auto;",
+                                    absolutePanel(top = 10, right = 10, style = "z-index: 500;",
+                                                  downloadButton("downloadPlot_Data_Distribution", "Download", style = "color: black; background-color: lightblue;")),
                                     # style = "width: 100%; height: 600px; overflow: auto;",
-
                                     plotOutput("variable_distribution", height = "800px", width= "900px")
                                   )
                                 )
                               )
                             ),
+
                             tabPanel(
-                              title = "Correlation Structure",
+                              title = "Significant Correlation",
                               fluidRow(
                                 column(
-                                  12,  # Full width
+                                  12,
                                   div(
-                                    style = "width: 1200px; height: 600px; overflow: auto;",
+                                    style = "width: 1200px; height: 900px; overflow: auto;",
+                                    absolutePanel(top = 10, right = 10, style = "z-index: 500;",
+                                                  downloadButton("downloadPlot_Significant_Correlation", "Download", style = "color: black; background-color: lightblue;")),
+                                    # style = "width: 100%; height: 600px; overflow: auto;",
+                                    plotOutput("correlation_structure_pi_sig", height = "800px", width= "900px")
+                                  )
+                                )
+                              )
+                            ),
+
+                            tabPanel(
+                              title = "Correlation Dendrograms",
+                              fluidRow(
+                                column(
+                                  12,
+                                  div(
+                                    style = "width: 1200px; height: 900px; overflow: auto;",
+                                    absolutePanel(top = 10, right = 10, style = "z-index: 500;",
+                                                  downloadButton("downloadPlot_Correlation_Dendrograms", "Download", style = "color: black; background-color: lightblue;")),
                                     # style = "width: 100%; height: 600px; overflow: auto;",
                                     plotOutput("correlation_structure", height = "800px", width= "900px")
+                                  )
+                                )
+                              )
+                            ),
+                            tabPanel(
+                              title = "Correlation Significant",
+                              fluidRow(
+                                column(
+                                  12,
+                                  div(
+                                    style = "width: 1200px; height: 900px; overflow: auto;",
+                                    plotOutput("correlation_structure_sig", height = "800px", width= "900px")
                                   )
                                 )
                               )
@@ -625,7 +983,7 @@ $(document).on('click', '#goToTab', function() {
                               title = "Data characteristics",
                               fluidRow(
                                 column(
-                                  12,  # Full width
+                                  12,
                                   div(
                                     style = "width: 600px; height: 600px; overflow: auto;",
                                     # style = "width: 100%; height: 600px; overflow: auto;",
@@ -638,7 +996,7 @@ $(document).on('click', '#goToTab', function() {
                               title = "BlackList",
                               fluidRow(
                                 column(
-                                  12,  # Full width
+                                  12,
                                   div(
                                     style = "width: 600px; height: 600px; overflow: auto;",
                                     DTOutput("Black_List")
@@ -663,10 +1021,10 @@ $(document).on('click', '#goToTab', function() {
 
                 tabsetPanel(id = "tabset3",
                             tabPanel(
-                              title = "Algorithm Progression",
+                              title = "Algorithms Progression",
                               fluidRow(
                                 column(
-                                  12,  # Adjusted column width
+                                  12,
                                   div(
                                     style = "width: 600px; height: 600px; overflow: auto;",
                                     # style = "width: 100%; height: 600px; overflow: auto;",
@@ -677,10 +1035,10 @@ $(document).on('click', '#goToTab', function() {
                               )
                             ),
                             tabPanel(
-                              title = "List of Arc",
+                              title = "List of Arcs",
                               fluidRow(
                                 column(
-                                  12,  # Adjusted column width
+                                  12,
                                   div(
                                     style = "width: 600px; height: 600px; overflow: auto;",
                                     # style = "width: 100%; height: 600px; overflow: auto;",
@@ -709,7 +1067,7 @@ $(document).on('click', '#goToTab', function() {
                               title = "Augmented Arcs",
                               fluidRow(
                                 column(
-                                  12,  # Use full width
+                                  12,
                                   div(
                                     style = "width: 100%; height: 600px; overflow: auto;",
                                     DTOutput("augmented_edge_list")
@@ -721,7 +1079,7 @@ $(document).on('click', '#goToTab', function() {
                               title = "Threshold & Arcs",
                               fluidRow(
                                 column(
-                                  12,  # Use full width
+                                  12,
                                   div(
                                     style = "width: 100%; height: 600px; overflow: auto;",
                                     DTOutput("augmneted.thresh.cols")
@@ -733,7 +1091,7 @@ $(document).on('click', '#goToTab', function() {
                               title = "Possible seed Arcs",
                               fluidRow(
                                 column(
-                                  12,  # Use full width
+                                  12,
                                   div(
                                     style = "width: 100%; height: 600px; overflow: auto;",
                                     DTOutput("possible_seed_arcs_filter")
@@ -759,7 +1117,7 @@ $(document).on('click', '#goToTab', function() {
                               title = "Loss function table",
                               fluidRow(
                                 column(
-                                  12,  # Ensure this width is between 1 and 12
+                                  12,
                                   div(
                                     style = "width: 100%; height: 600px; overflow: auto;",
                                     DTOutput("L1_merged")
@@ -771,7 +1129,7 @@ $(document).on('click', '#goToTab', function() {
                               title = "Number parent table",
                               fluidRow(
                                 column(
-                                  12,  # Ensure this width is between 1 and 12
+                                  12,
                                   div(
                                     style = "width: 100%; height: 600px; overflow: auto;",
                                     DTOutput("npar_merged")
@@ -783,7 +1141,7 @@ $(document).on('click', '#goToTab', function() {
                               title = "BIC table",
                               fluidRow(
                                 column(
-                                  12,  # Ensure this width is between 1 and 12
+                                  12,
                                   div(
                                     style = "width: 100%; height: 600px; overflow: auto;",
                                     DTOutput("BIC_merged_table")
@@ -795,7 +1153,7 @@ $(document).on('click', '#goToTab', function() {
                               title = "Min BIC table",
                               fluidRow(
                                 column(
-                                  12,  # Ensure this width is between 1 and 12
+                                  12,
                                   div(
                                     style = "width: 600px; height: 600px; overflow: auto;",
                                     DTOutput("bic_min_table")
@@ -807,7 +1165,7 @@ $(document).on('click', '#goToTab', function() {
                               title = "Possible WhiteList",
                               fluidRow(
                                 column(
-                                  12,  # Ensure this width is between 1 and 12
+                                  12,
                                   div(
                                     style = "width: 600px; height: 600px; overflow: auto;",
                                     DTOutput("possible.white.list")
@@ -817,7 +1175,6 @@ $(document).on('click', '#goToTab', function() {
                             )
                 )
         ),
-        # ------------------------------------------------------------------------
         # ------------------------------------------------------------------------
         tabItem(tabName = "WhiteList_Check_acyclicity",
                 h3("WhiteListed arcs"),
@@ -877,7 +1234,7 @@ $(document).on('click', '#goToTab', function() {
                               title = "Final Whitelist",
                               fluidRow(
                                 column(
-                                  6,  # Adjusted column width if needed
+                                  6,
                                   div(
                                     style = "width: 600px; height: 600px; overflow: auto;",
                                     # style = "width: 100%; height: 600px; overflow: auto;",
@@ -900,10 +1257,10 @@ $(document).on('click', '#goToTab', function() {
           conditions. Users can navigate through the dashboard, opting for a feature from an extensive list;
           the application then generates a visual portrayal of the chosen feature (illustrated on the <code>y-axis</code>)
           against a normalized significant feature (<code>x-axis</code>). In the resultant plot, samples derived from healthy
-          tissues are denoted by <span style='color: blue;'><strong>blue dots</strong></span>, whereas those from pathological
-          tissues are designated by <span style='color: red;'><strong>red dots</strong></span>. Given that the pathological
+          tissues are denoted by  <span style='color: red;'><strong>red dots</strong></span>, whereas those from pathological
+          tissues are designated by <span style='color: blue;'><strong>blue dots</strong></span>. Given that the pathological
           feature is a binary variable, the dashboard delineates different features with <span style='color: blue;'><strong>blue contours</strong></span>
-          for instances where <span style='color: blue;'>condition &lt; 0.05</span> and <span style='color: red;'><strong>red contours</strong></span> for <span style='color: red;'>condition &gt; 0.95</strong></span>.</ul>"
+          for instances where <span style='color: blue;'>condition &lt; 0.95</span> and <span style='color: red;'><strong>red contours</strong></span> for <span style='color: red;'>condition &gt; 0.05</strong></span>.</ul>"
                   )
                 ),
                 tabsetPanel(id = "tabset4",
@@ -926,12 +1283,12 @@ $(document).on('click', '#goToTab', function() {
                                   ),
                                   column(
                                     width = 6,
-                                    absolutePanel(top = 10, right = 10, style = "z-index: 500;",  # Ensures the download button is on top and visible
-                                                  # absolutePanel(top = 10, right = 10, style = "z-index: 500; position: relative;", # Adjusted for positioning relative to the column
+                                    absolutePanel(top = 10, right = 10, style = "z-index: 500;",  #
+                                                  # absolutePanel(top = 10, right = 10, style = "z-index: 500; position: relative;",
                                                   downloadButton("downloadPlot_contour", "Download", style = "color: black; background-color: lightblue;")
                                     ),
                                     plotOutput("contour_plot", height = "600px")
-                                    # plotOutput("contour_plot", height = "600px", width = "100%") # Ensured it takes full width
+                                    # plotOutput("contour_plot", height = "600px", width = "100%") #
                                   )
                                 )
                               )
@@ -945,55 +1302,112 @@ $(document).on('click', '#goToTab', function() {
                   style = "font-family: 'Arial'; font-size: 14px; color: #333;",
                   HTML(
                     "<ul>
-        <li>
-          Plotting DAG network for each single algorithm such as
-          Incremental association with false discovery rate control - <code>IAMB.FDR</code>,
-          Practical constraint - <code>PC.STABLE</code>,
-          Grow-shrink Markov Blanket - <code>GS</code>,
-          Incremental association Markov Blanket - <code>IAMB</code>,
-          Hill climbing - <code>HC</code>,
-          Tabu search - <code>Tabu</code>,
-          Max-min hill-climbing - <code>MMHC</code>,
-          Restricted maximization - <code>RSMAX2</code>
-          in comparison to what we learned by the BaMANI algorithm as an ensemble approach.
-        </li>
-      </ul>"
+                <li>Plotting DAG network for each single algorithm such as
+                Incremental association with false discovery rate control - <code>IAMB.FDR</code>,
+                Practical constraint - <code>PC.STABLE</code>,
+                Grow-shrink Markov Blanket - <code>GS</code>,
+                Incremental association Markov Blanket - <code>IAMB</code>,
+                Hill climbing - <code>HC</code>,
+                Tabu search - <code>Tabu</code>,
+                Max-min hill-climbing - <code>MMHC</code>,
+                Restricted maximization - <code>RSMAX2</code>
+                in comparison to what we learned by the BaMANI algorithm as an ensemble approach.
+                </li>
+            </ul>"
                   )
                 ),
+                tags$head(
+                  tags$style(HTML("
+            /* Matching the tab headers to box colors in singleAlg.DAG */
+            #singleAlg.DAG a[data-value='Single Algorithm DAG network'] {
+                background-color: #f39c12; /* Bootstrap warning color for 'warning' */
+                color: white !important;
+            }
+            #singleAlg.DAG a[data-value='Single Algorithm DAG Summary'] {
+                background-color: #d9534f; /* Bootstrap danger color for 'danger' */
+                color: white !important;
+            }
+        "))
+                ),
                 tabsetPanel(id = "singleAlg.DAG",
-                            fluidRow(
-                              column(
-                                12,
-                                fluidRow(
-                                  column(2,
-                                         tags$div(
-                                           style = "border: 1px solid #ddd; padding: 10px; border-radius: 5px; margin-bottom: 20px;",
-                                           # style = "border: 1px solid #ddd; padding: 10px; border-radius: 5px; margin-bottom: 20px; text-align: center;",
-
-                                           fluidRow(
-                                             column(12,
-                                                    selectInput("alg_directed", "Select Directed Algorithm:", choices = c("iamb", "iamb.fdr", "pc.stable", "hc", "tabu", "mmhc", "rsmax2", "gs"))
-                                             )
-                                           ),
-                                           fluidRow(
-                                             column(12,
-                                                    # style = "display: flex; justify-content: center;", # Use flexbox to center the div
-                                                    style = "display: flex; justify-content: center;", # Use flexbox to center the div
-                                                    actionButton("run", "Run Algorithm", style = "color: white; background-color: #3498db; margin-top: 10px;")
-
-                                                    # actionButton("run", "Run Algorithm", style = "color: #333; background-color: lightblue; margin-top: 10px;")
-
-                                             )
-                                           )
-                                         )
-                                  ),
-                                  column(10,
-                                         div(style = "position: relative;",  # Ensures that the button can be absolutely positioned within this div
-                                             div(id = "plot_output_container", plotOutput("plot_output"), style = "width: 100%; height: 600px;"),  # Added id to the div
-                                             div(style = "position: absolute; top: 10px; right: 10px;",  # Positioning top-right
-                                                 actionButton("downloadPlot_run", "Download", style = "color: #333; background-color: lightblue;")  # Changed from downloadButton to actionButton
-                                             )
-                                         )
+                            tabPanel(
+                              title = "Single Algorithm Run",
+                              tabsetPanel(
+                                tabPanel(
+                                  title = "DAG Network",
+                                  fluidRow(
+                                    column(
+                                      12,
+                                      fluidRow(
+                                        column(2,
+                                               tags$div(
+                                                 style = "border: 1px solid #ddd; padding: 10px; border-radius: 5px; margin-bottom: 20px;",
+                                                 fluidRow(
+                                                   column(12,
+                                                          selectInput("alg_directed", "Select Directed Algorithm:", choices = c("iamb", "iamb.fdr", "pc.stable", "hc", "tabu", "mmhc", "rsmax2", "gs"))
+                                                   )
+                                                 ),
+                                                 fluidRow(
+                                                   column(12,
+                                                          style = "display: flex; justify-content: center;",
+                                                          actionButton("run", "Run Algorithm", style = "color: white; background-color: #3498db; margin-top: 10px;")
+                                                   )
+                                                 )
+                                               )
+                                        ),
+                                        column(10,
+                                               div(style = "position: relative;",
+                                                   div(id = "plot_output_container", plotOutput("plot_output"), style = "width: 100%; height: 600px;"),  #
+                                                   div(style = "position: absolute; top: 10px; right: 10px;",  # top-right
+                                                       actionButton("downloadPlot_run", "Download", style = "color: #333; background-color: lightblue;")  #
+                                                   )
+                                               )
+                                        )
+                                      )
+                                    )
+                                  )
+                                ),
+                                tabPanel(
+                                  title = "Network Summary",
+                                  fluidRow(
+                                    column(
+                                      12,
+                                      div(
+                                        style = "width: 900px; height: 600px; overflow: auto;",
+                                        dataTableOutput("DAG_detail")
+                                      )
+                                    )
+                                  )
+                                )
+                              )
+                            ),
+                            tabPanel(
+                              title = "BaMANI vs. Single Algorithm",
+                              tabsetPanel(
+                                tabPanel(
+                                  title = "Comparison of Arcs",
+                                  fluidRow(
+                                    column(
+                                      12,
+                                      div(
+                                        style = "position: relative; display: flex; justify-content: center; align-items: center; width: 900px; height: 600px; overflow: auto; padding-top: 20px;",
+                                        plotOutput("bar_plot"),
+                                        actionButton("downloadBarPlot", "Download", style = "position: absolute; top: 10px; right: 10px; z-index: 1000; color: #333; background-color: lightblue;")
+                                      )
+                                    )
+                                  )
+                                ),
+                                tabPanel(
+                                  title = "Analyzing Arc Strength",
+                                  fluidRow(
+                                    column(
+                                      12,
+                                      div(
+                                        style = "position: relative; display: flex; justify-content: center; align-items: center; width: 1200px; height: auto; padding-top: 10px; padding-bottom: 10px;",
+                                        plotOutput("scatter_plot"),
+                                        actionButton("downloadScatterPlot", "Download", style = "position: absolute; top: 10px; right: 10px; z-index: 1000; color: #333; background-color: lightblue;")
+                                      )
+                                    )
                                   )
                                 )
                               )
@@ -1029,11 +1443,11 @@ $(document).on('click', '#goToTab', function() {
                               title = "Whitelist and BIC per threshold",
                               fluidRow(
                                 column(
-                                  12,  # Use full width
+                                  12,
                                   div(
                                     style = "width: 900px; height: 500px; overflow: auto;",
                                     # style = "width: 100%; height: 500px; overflow: auto;",
-                                    absolutePanel(top = 10, right = 10, style = "z-index: 500;", # Ensures the download button is on top and visible
+                                    absolutePanel(top = 10, right = 10, style = "z-index: 500;",
                                                   downloadButton("downloadPlot_Diagnostic", "Download", style = "color: black; background-color: lightblue;")
                                     ),
                                     plotOutput("Diagnostic_plot")
@@ -1042,14 +1456,14 @@ $(document).on('click', '#goToTab', function() {
                               )
                             ),
                             tabPanel(
-                              title = "Algorithm count and arc strength",
+                              title = "Algorithm count",
                               fluidRow(
                                 column(
-                                  12,  # Use full width
+                                  12,
                                   div(
                                     style = "width: 1200px; height: 600px; overflow: auto;",
                                     # style = "width: 100%; height: 500px; overflow: auto;",
-                                    absolutePanel(top = 10, right = 10, style = "z-index: 500;", # Ensures the download button is on top and visible
+                                    absolutePanel(top = 10, right = 10, style = "z-index: 500;",
                                                   downloadButton("downloadPlot_Algorithm.Count", "Download", style = "color: black; background-color: lightblue;")
                                     ),
                                     plotOutput("Plot.Algorithm.Count_arcs.strength")
@@ -1077,28 +1491,44 @@ $(document).on('click', '#goToTab', function() {
                 ),
                 tabsetPanel(id = "tabset33",
                             tabPanel(
-                              title = "DAG network flow",
+                              title = "BaMANI Dynamics Network",
                               fluidRow(
                                 column(
-                                  12,  # Use full width
+                                  12,
                                   div(
                                     style = "width: 1400px; height: 700px; overflow: auto;",
-                                    absolutePanel(top = 10, right = 10, style = "z-index: 500;",  # Ensures the download button is on top and visible
+                                    absolutePanel(top = 10, right = 10, style = "z-index: 500;",
                                                   downloadButton("downloadPlot_DAG_flow", "Download", style = "color: black; background-color: lightblue;")),
                                     visNetworkOutput("DAGNetworkPlot", width = "100%", height = "100%")
                                   )
                                 )
                               )
                             ),
+                            # --------------------------
                             tabPanel(
-                              title = "DAG Network Plot",
+                              title = "BaMANI Network (parameters)",
                               fluidRow(
                                 column(
-                                  12,  # Use full width
+                                  12,
+                                  div(
+                                    style = "width: 1400px; height: 700px; overflow: auto;",
+                                    absolutePanel(top = 10, right = 10, style = "z-index: 500;",
+                                                  downloadButton("downloadPlot_DAG_flow_intercept", "Download", style = "color: black; background-color: lightblue;")),
+                                    visNetworkOutput("DAGNetworkPlot_intercept", width = "100%", height = "100%")
+                                  )
+                                )
+                              )
+                            ),
+                            # --------------------------
+                            tabPanel(
+                              title = "BaMANI DAG Network",
+                              fluidRow(
+                                column(
+                                  12,
                                   div(
                                     style = "width: 1100px; height: 700px; overflow: auto;",
                                     # style = "width: 1400px; height: 700px; overflow: auto;",
-                                    absolutePanel(top = 10, right = 10, style = "z-index: 500;",  # Ensures the download button is on top and visible
+                                    absolutePanel(top = 10, right = 10, style = "z-index: 500;",
                                                   downloadButton("downloadPlot_DAG", "Download", style = "color: black; background-color: lightblue;")),
                                     plotOutput("DAG.Plot", width = "100%", height = "100%")
                                   )
@@ -1106,10 +1536,12 @@ $(document).on('click', '#goToTab', function() {
                               )
                             ),
                             tabPanel(
-                              title = "Arc Slopes Strength Table",
+                              title = "BaMANI Network Summary",
+                              # title = "DAG summary Arc Slopes Strength Table",
+
                               fluidRow(
                                 column(
-                                  12,  # Use full width
+                                  12,
                                   div(
                                     style = "width: 900px; height: 600px; overflow: auto;",
                                     DTOutput("arc_slopes_strength")
@@ -1123,5 +1555,4 @@ $(document).on('click', '#goToTab', function() {
       )
     )
   )
-
 }

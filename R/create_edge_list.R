@@ -1,7 +1,7 @@
 # Define function to create Blank_edge_list
 create_edge_list <- function(Blank_edge_list, Edge_count, ars) {
   
-  print("Starting 'create_edge_list' inputs:")
+  # print("Starting 'create_edge_list' inputs:")
   
   # Loop through each row in arcs dataframe
   for (i in seq_len(nrow(ars))) {

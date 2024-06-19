@@ -2,17 +2,17 @@ calculate_cor_sign <- function(ars, corrcoef) {
   
   
   
-  cat("------------------------------", "\n")
-  print("Starting 'calculate_cor_sign' inputs:")
-  cat("------------------------------", "\n")
-  cat(sprintf("class of ars:"), "\n")
-  cat("------------------------------", "\n")
-  print(class(ars))  # Should output 'data.frame'
-  cat("------------------------------", "\n")
-  cat(sprintf("class of corrcoef:"), "\n")
-  cat("------------------------------", "\n")
-  print(class(corrcoef))  # Should output 'matrix'
-  cat("------------------------------", "\n")
+  # cat("------------------------------", "\n")
+  # print("Starting 'calculate_cor_sign' inputs:")
+  # cat("------------------------------", "\n")
+  # cat(sprintf("class of ars:"), "\n")
+  # cat("------------------------------", "\n")
+  # print(class(ars))  # Should output 'data.frame'
+  # cat("------------------------------", "\n")
+  # cat(sprintf("class of corrcoef:"), "\n")
+  # cat("------------------------------", "\n")
+  # print(class(corrcoef))  # Should output 'matrix'
+  # cat("------------------------------", "\n")
   
   # Ensure ars is data frame with expected columns
   if (!("data.frame" %in% class(ars))) {
@@ -24,9 +24,10 @@ calculate_cor_sign <- function(ars, corrcoef) {
     stop("The 'ars' data frame must contain 'from' and 'to' columns.")
   }
   
-  # Display first few rows to verify structure
-  print(head(ars))
-  
+  cat("------------------------------", "\n")
+  print("List of Arcs in Learning process:")
+  cat("------------------------------", "\n")
+  print((ars))
   
   
   # If either is not correct, may need to convert them:

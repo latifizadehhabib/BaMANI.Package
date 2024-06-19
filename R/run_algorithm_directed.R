@@ -170,13 +170,13 @@ W_est = model.fit(data.values, lambda1=0.1, exclude_edges=edges_ex, include_edge
     Edge_count_before <- Edge_count
     
     # Call create_edge_list function to create Blank_edge_list
-    #source("create_edge_list.R")
+    source("create_edge_list.R")
     create_edge <- create_edge_list(Blank_edge_list, Edge_count, ars)
     Blank_edge_list <- create_edge$edge_list
     Edge_count <- create_edge$edge_count
     
     # -------------------------------------------
-    #source("calculate_cor_sign.R")
+    source("calculate_cor_sign.R")
     CorSign <- calculate_cor_sign(ars, corrcoef)
     
     # Create data frame from columns
