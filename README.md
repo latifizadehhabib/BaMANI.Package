@@ -49,7 +49,6 @@ To set up the development environment and build the package from source, follow 
 2. **Open R or RStudio:** 
 
 Set the working directory to the package directory:
-
       ```r
     setwd("path/to/BaMANI.Package")
 
@@ -79,11 +78,11 @@ Set the working directory to the package directory:
 
 - Ensure Rtools is installed and properly configured. You can download it from CRAN Rtools.
 - Installation of Rgraphviz package:
-- ```r
+  ```r
   install.packages("BiocManager")
   BiocManager::install("Rgraphviz")
  - Load Rgraphviz package:
- -  ```r
+   ```r
     library(Rgraphviz)
 
 - Ensure all package dependencies are installed. Use the following R command to install any missing packages:
