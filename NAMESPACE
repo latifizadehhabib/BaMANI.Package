@@ -40,3 +40,13 @@ import(scales)
 import(RColorBrewer)
 import(reticulate)
 import(gplots)
+
+
+import(corrplot)
+import(metan)
+import(ggcorrplot)
+import(VennDiagram)
+import(png)
+import(tidyr)
+import(ggradar)
+import(ggpattern)

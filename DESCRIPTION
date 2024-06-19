@@ -47,6 +47,15 @@ Imports:
     scales,
     RColorBrewer,
     reticulate,
-    gplots
+    gplots,
+    VennDiagram,
+ggcorrplot,
+metan,
+corrplot,
+png,
+tidyr,
+ggradar,
+ggpattern,
+
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
