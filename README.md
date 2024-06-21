@@ -22,7 +22,8 @@ Ensure you have the following prerequisites installed:
    install.packages("path/to/BaMANI.Package_0.1.0.tar.gz", repos = NULL, type = "source")
    
 Before running the BaMANI app provided by the package, install Rgraphviz package using "BiocManager" by the below command lines;
-    > install.packages("BiocManager")
+    
+    > install.packages("BiocManager")    
     > BiocManager::install("Rgraphviz")
     > library(Rgraphviz)  # Load Rgraphviz package
 
