@@ -90,20 +90,3 @@ Set the working directory to the package directory:
       ```r
       install.packages("BaMANI.Package_0.1.0.tar.gz", repos = NULL, type = "source")
 
-## Troubleshooting
-
-- Ensure Rtools is installed and properly configured. You can download it from CRAN Rtools.
-- Installation of Rgraphviz package:
-  ```r
-  install.packages("BiocManager")
-  BiocManager::install("Rgraphviz")
-  # Load Rgraphviz package:
-  library(Rgraphviz)  
-
-- Ensure all package dependencies are installed. Use the following R command to install any missing packages:
-
-  ```r
-   required_packages <- c("shiny", "shinydashboard", "shinyjs", "shinyWidgets", "DT", "purrr", "parallel", "bnlearn", "visNetwork", "plotly", "shinyalert", "htmltools")
-   install.packages(setdiff(required_packages, installed.packages()[,"Package"]))
-
-
