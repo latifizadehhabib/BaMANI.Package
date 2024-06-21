@@ -23,7 +23,7 @@ Ensure you have the following prerequisites installed:
    
 Before running the BaMANI app provided by the package, install Rgraphviz package using "BiocManager" by the below command lines;
     ```r
-    install.packages("BiocManager")
+    > install.packages("BiocManager")
 
 ## Usage
 
