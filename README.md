@@ -16,7 +16,7 @@ Ensure you have the following prerequisites installed:
    Download the `BaMANI.Package_0.1.0.tar.gz` file from the repository.
 
 2. **Install the Package:**
-   Use the following R command to install the package from the downloaded file. Replace \textcolor{blue}{\texttt{path/to/}} in the command below with the actual path to where you saved the downloaded file.
+   Use the following R command to install the package from the downloaded file. Replace `path/to/` in the command below with the actual path to where you saved the downloaded file.
 
    ```r
    install.packages("path/to/BaMANI.Package_0.1.0.tar.gz", repos = NULL, type = "source")
