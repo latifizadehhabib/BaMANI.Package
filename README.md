@@ -33,8 +33,7 @@ Use the following R command to install any missing packages:
     "colorspace", "stats", "lattice", "MASS", "ggpubr", "snow", "grid", "tidyverse", "ggplot2",
     "reshape2", "metR", "fields", "scatterplot3d", "matrixStats", "rgl", "readr", "dplyr", "cowplot",
     "knitr", "scales", "RColorBrewer", "reticulate", "bnlearn", "Rgraphviz", "plotly", "igraph",
-    "visNetwork", "gplots", "ggpattern", "tidyr", "png", "corrplot", "metan", "ggcorrplot",
-    "VennDiagram")
+    "visNetwork", "gplots", "ggpattern", "tidyr", "png", "corrplot", "metan", "ggcorrplot", "VennDiagram")
 
     
 ## Usage
