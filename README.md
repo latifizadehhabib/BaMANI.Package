@@ -27,10 +27,20 @@ Before running the BaMANI app provided by the package, install Rgraphviz package
     > BiocManager::install("Rgraphviz")
     > library(Rgraphviz)  # Load Rgraphviz package
 
+Use the following R command to install any missing packages:
+    
+    > required\_packages <-  c(
+    "shinyBS", "shinyWidgets", "shinymanager", "keyring", "shinyalert", "shinyjs", "parallel", "DT",
+    "colorspace", "stats", "lattice", "MASS", "ggpubr", "snow", "grid", "tidyverse", "ggplot2",
+    "reshape2", "metR", "fields", "scatterplot3d", "matrixStats", "rgl", "readr", "dplyr", "cowplot",
+    "knitr", "scales", "RColorBrewer", "reticulate", "bnlearn", "Rgraphviz", "plotly", "igraph",
+    "visNetwork", "gplots", "ggpattern", "tidyr", "png", "corrplot", "metan", "ggcorrplot",
+    "VennDiagram")
+
     
 ## Usage
 
-To run the Shiny app provided by the package:
+To run the BaMANI app provided by the package:
 
 1. **Load the Package:**
 
