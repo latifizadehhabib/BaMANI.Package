@@ -29,7 +29,7 @@ Before running the BaMANI app provided by the package, install Rgraphviz package
 
 Use the following R command to install any missing packages:
     
-    > required\_packages <-  c(
+    > required_packages <-  c(
     "shinyBS", "shinyWidgets", "shinymanager", "keyring", "shinyalert", "shinyjs", "parallel", "DT",
     "colorspace", "stats", "lattice", "MASS", "ggpubr", "snow", "grid", "tidyverse", "ggplot2",
     "reshape2", "metR", "fields", "scatterplot3d", "matrixStats", "rgl", "readr", "dplyr", "cowplot",
