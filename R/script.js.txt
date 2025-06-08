@@ -1,4 +1,0 @@
-function goToTabAndCloseAlert() {
-  $('#tabset81 a[data-value="WhiteList_Check_acyclicity"]').click(); // Clicks the tab
-  swal.close(); // Closes the shinyalert
-}
